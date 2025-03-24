@@ -1,3 +1,0 @@
-/home/cognet12/CLionProjects/jan/1M7d/CMakeFiles/edit_cache.dir
-/home/cognet12/CLionProjects/jan/1M7d/CMakeFiles/rebuild_cache.dir
-/home/cognet12/CLionProjects/jan/1M7d/CMakeFiles/1M7d.dir
