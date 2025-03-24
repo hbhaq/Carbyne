@@ -49,12 +49,10 @@ bf::counting_bloom_filter cbf_mempool_one(make_hasher(14,time(0), true), 4000000
 bf::counting_bloom_filter cbf_mempool_two(make_hasher(14, time(0), true), 4000000, width);
 //bf::counting_bloom_filter bf_txin(make_hasher(4,time(0), true), 4000000, width);
 
+ofstream debug_forensics ( "//path/to//debug/debug_forensics.csv" );
+
 std::vector<size_t> tx_indices;
 
-//ofstream debug_falsepositives ( "/home/cognet12/CLionProjects/jan/1M7d/debug/false_positives.csv" );
-//ofstream debug_falsenegatives ( "/home/cognet12/CLionProjects/jan/1M7d/debug/false_negatives.csv" );
-//ofstream debug_inventory_positives ( "/home/cognet12/CLionProjects/jan/1M7d/debug/inventory_positives.csv" );
-//ofstream debug_forensics ("/home/cognet12/CLionProjects/jan/1M7d/debug/debug_forensics.csv" );
 //DETERMINISTIC FOR PERFORMANCE
     std::map <string, int> shadow_mempool;  // tx hash, unix time
     std::map < std::pair<string, int>, int> referenced_outputs;  // (ref tx hash, index), unixtime
@@ -107,7 +105,7 @@ string confusion_matrix_cbf_mempool_entry(const string& tx_type, const string& t
         debug_falsepositives<<endl; */
 
     }
-    // copy_file("/home/cognet12/CLionProjects/expiry/100kdebug/debug_forensics.csv", string("/home/cognet12/CLionProjects/expiry/100kfp/fp"+ to_string(fp)+".csv"));
+    
     if (shadow>0 && cbfmem==0) {
         fn_entry++;
         h_fn_entry++;
@@ -121,7 +119,6 @@ string confusion_matrix_cbf_mempool_entry(const string& tx_type, const string& t
             debug_falsenegatives <<*it<<",";
         }*/
         }
-        //   copy_file("/home/cognet12/CLionProjects/expiry/100kdebug/debug_forensics.csv", string("/home/cognet12/CLionProjects/expiry/100kfn/fn"+ to_string(fn)+".csv"));
         cm_return="FN";
     }
 
@@ -158,7 +155,6 @@ string cm_return;
          debug_falsepositives<<endl; */
       
     }
-       // copy_file("/home/cognet12/CLionProjects/expiry/100kdebug/debug_forensics.csv", string("/home/cognet12/CLionProjects/expiry/100kfp/fp"+ to_string(fp)+".csv"));
     if (shadow>0 && cbfmem==0) {
         fn_exit++;
         h_fn_exit++;
@@ -166,7 +162,6 @@ string cm_return;
             fn_index_exit++;
             h_fn_index_exit++;
         }
-        //   copy_file("/home/cognet12/CLionProjects/expiry/100kdebug/debug_forensics.csv", string("/home/cognet12/CLionProjects/expiry/100kfn/fn"+ to_string(fn)+".csv"));
         cm_return = "FN";
     }
       
@@ -208,7 +203,6 @@ string confusion_matrix_cbf_mempool_inventory(const string& tx_type, const strin
        inventory_positives.insert(make_pair(txid, inventory_time));
   //      debug_inventory_positives << txid << endl;
     }
-    // copy_file("/home/cognet12/CLionProjects/expiry/100kdebug/debug_forensics.csv", string("/home/cognet12/CLionProjects/expiry/100kfp/fp"+ to_string(fp)+".csv"));
     if (shadow>0 && cbfmem==0) {
 
       //  if (get_data.count(txid) == 1) {
@@ -220,7 +214,6 @@ string confusion_matrix_cbf_mempool_inventory(const string& tx_type, const strin
         fn_inv++;
         h_fn_inv++;
       
-        //   copy_file("/home/cognet12/CLionProjects/expiry/100kdebug/debug_forensics.csv", string("/home/cognet12/CLionProjects/expiry/100kfn/fn"+ to_string(fn)+".csv"));
         cm_return="FN";
   if (inventory_negatives.count(txid) == 0) {
              unique_inventory_fn++;
@@ -279,8 +272,6 @@ string confusion_matrix_bf_txin(const string& tx, int ref, int txin) {
     return cm_return;
 }
 
-
-
 vector<size_t> get_indices(const string& tx, const string& type ) {
     std::vector<size_t> indices;
    //if(num==1)
@@ -304,13 +295,9 @@ int main() {
 
 
     //FILES WHERE DEBUG INFORMATION AND RESULTS ARE STORED TO, CHANGE FILE PATH ACCORDING TO YOUR COMPUTER
-   // ofstream debug_overflow ( "/home/cognet12/CLionProjects/expiry/100kdebug/debug_overflow.csv" );
-    ofstream debug_hourly ("/home/cognet12/CLionProjects/jan/1M7d/debug/debug_hourly.csv" );
-    ofstream debug_cumulative ("/home/cognet12/CLionProjects/jan/1M7d/debug/debug_cumulative.csv" );
-  //  ofstream debug_ro("/home/cognet12/CLionProjects/jan/1M7d/debug/debug_ro.csv" );
- //   ofstream debug_reason("/home/cognet12/CLionProjects/jan/1M7d/debug/debug_reason.csv" );
-  //  ofstream debug_rbf("/home/cognet12/CLionProjects/jan/1M7d/debug/debug_rbf.csv" );
-  //  ofstream debug_summary("/home/cognet12/CLionProjects/jan/1M7d/debug/debug_summary.csv" );
+   //ofstream debug_overflow ( "//path/to//debug/debug_overflow.csv" );
+    ofstream debug_hourly ("//path/to//debug/debug_hourly.csv" );
+    ofstream debug_cumulative ("/path/to/debug/debug_cumulative.csv" );
 
 
     //debug_overflow  << "cbf_lookup Return Value \n";
@@ -441,14 +428,8 @@ int main() {
                     
                      <<endl;
 
-
-
-  //  debug_reason<<"block_tx"<<","<<"evict_tx"<<","<<"reorg_tx"<<","<<"replace_tx"<<","<<"expire_tx"<<","<<"conflict_tx"<<endl;
-  //  debug_ro<<hour << "," << "mempool_time" << "," << "ro_count"<< "," << "tp_ro"<< "," << "tn_ro" << "," << "fp_ro" << "," << "fn_ro"<<","<<"h_tp_ro"<<","<<"h_tn_ro"<<","<<"h_fp_ro"<<","<<"h_fn_ro"<<endl;
-   // debug_rbf << "total_rbf"<<","<< "rbf_missed" << "," << "rbf_replaced" << "," <<"% replaced total"<<","<< "h_rbf" <<","<<"h_rbf_missed"<<","<<"h_rbf_replaced"<<","<<"% replaced hour"<<endl;
-
     fstream newfile;
-    string file_name = string("/home/cognet12/CLionProjects/btcdata/inventory.csv");
+    string file_name = string("/path/to/data/inventory.csv");
     newfile.open(file_name,ios::in); //open a file to perform read operation using file object
 
     string line, inv_type, inv_txhash;
@@ -468,7 +449,7 @@ int main() {
 
     for (int j = 1; j <= 183; j++) {
 
-        string file_name = string("/home/cognet12/CLionProjects/btcdata/mem/" + to_string(j+71) + ".json");
+        string file_name = string("/path/to/data/mempool/" + to_string(j+71) + ".json");
         cout << file_name << endl;
 
         ifstream ifs(file_name);
