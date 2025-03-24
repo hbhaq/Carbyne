@@ -1,10 +1,10 @@
 # -- Project Setup ------------------------------------------------------------
 
-project(1M7d)
+project(carbyne)
 
-# -- 1M7d -------------------------------------------------------------------
+# -- carbyne -------------------------------------------------------------------
 
-set(1M7d_sources
+set(carbyne_sources
   bf/bitvector.cpp
   bf/counter_vector.cpp
   bf/hash.cpp
@@ -20,9 +20,9 @@ set(1M7d_sources
   rapidjson/filereadstream.h
   helpers/primitives.h
   cpp-datetimelite/datetimelite.h
-  1M7d.cpp
+  carbyne.cpp
 )
 
 set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=c++11")
 
-add_executable(1M7d ${1M7d_sources})
+add_executable(carbyne ${carbyne_sources})
